@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -22,6 +21,10 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private Transform characterPos;
 
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private float stickDeadZone = 0.2f;
+    [SerializeField] private InputActionReference jumpAction;
+
     void Start()
     {
         leftLegRB = leftLeg.GetComponent<Rigidbody2D>();
@@ -31,26 +34,25 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetAxisRaw("Horizontal") != 0)
+        Vector2 moveDirection = moveAction.action.ReadValue<Vector2>();
+        if (moveDirection.x > 0 + stickDeadZone)
         {
-            if(Input.GetAxisRaw("Horizontal") > 0)
-            {
-                anim.Play("Character_WalkRight");
-                StartCoroutine(MoveRight(stepWait));
-            }
-            else
-            {
-                anim.Play("Character_WalkLeft");
-                StartCoroutine(MoveLeft(stepWait));
-            }
+            anim.Play("Character_WalkRight");
+            StartCoroutine(MoveRight(stepWait));
+        }
+        else if (moveDirection.x < 0 - stickDeadZone)
+        {
+            anim.Play("Character_WalkLeft");
+            StartCoroutine(MoveLeft(stepWait));
         }
         else
         {
             anim.Play("Character_Idle");
         }
 
+        float isTryingToJump = jumpAction.action.ReadValue<float>();
         isOnGroud = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground);
-        if (isOnGroud && Input.GetKeyDown(KeyCode.Space))
+        if (isOnGroud && isTryingToJump > 0)
         {
             bodyRB.AddForce(Vector2.up * jumpForce);
         }
