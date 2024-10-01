@@ -567,7 +567,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 4
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -1828,10 +1828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b02b1d5b853d44fafb4f34fcd19f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAction: {fileID: -9150632071394753687, guid: 27fd30f8a7fff194e918cb0b2f7c1df6, type: 3}
-  jumpAction: {fileID: 7602950954194104081, guid: 27fd30f8a7fff194e918cb0b2f7c1df6, type: 3}
-  handsUpAction: {fileID: 9061825513788249823, guid: 27fd30f8a7fff194e918cb0b2f7c1df6, type: 3}
-  handsDownAction: {fileID: 7737574153710561802, guid: 27fd30f8a7fff194e918cb0b2f7c1df6, type: 3}
   character: {fileID: 6943710774891455169}
   stickDeadZone: 0.2
 --- !u!1 &7567928092884065854
