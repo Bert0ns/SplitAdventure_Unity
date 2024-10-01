@@ -1,74 +1,93 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject character;
     [SerializeField] private GameObject leftLeg;
     [SerializeField] private GameObject rightLeg;
     [SerializeField] private GameObject body;
+    [SerializeField] private GameObject rightHand;
+    [SerializeField] private GameObject leftHand;
     private Rigidbody2D leftLegRB;
     private Rigidbody2D rightLegRB;
     private Rigidbody2D bodyRB;
+    private Rigidbody2D rightHandRB;
+    private Rigidbody2D leftHandRB;
+    private CharacterAnimationManager characterAnimationManager;
 
     [SerializeField] private float speed = 1500f;
     [SerializeField] private float stepWait = 0.5f;
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float handForce = 10f;
 
-    private bool isOnGroud;
     [SerializeField] private float positionRadius;
     [SerializeField] private LayerMask ground;
     [SerializeField] private Transform characterPos;
-
-    [SerializeField] private InputActionReference moveAction;
-    [SerializeField] private float stickDeadZone = 0.2f;
-    [SerializeField] private InputActionReference jumpAction;
 
     void Start()
     {
         leftLegRB = leftLeg.GetComponent<Rigidbody2D>();
         rightLegRB = rightLeg.GetComponent<Rigidbody2D>();
         bodyRB = body.GetComponent<Rigidbody2D>();
+        rightHandRB = rightHand.GetComponent<Rigidbody2D>();
+        leftHandRB = leftHand.GetComponent<Rigidbody2D>();
+        characterAnimationManager = character.GetComponent<CharacterAnimationManager>();
     }
 
-    void Update()
-    {
-        Vector2 moveDirection = moveAction.action.ReadValue<Vector2>();
-        if (moveDirection.x > 0 + stickDeadZone)
-        {
-            anim.Play("Character_WalkRight");
-            StartCoroutine(MoveRight(stepWait));
-        }
-        else if (moveDirection.x < 0 - stickDeadZone)
-        {
-            anim.Play("Character_WalkLeft");
-            StartCoroutine(MoveLeft(stepWait));
-        }
-        else
-        {
-            anim.Play("Character_Idle");
-        }
-
-        float isTryingToJump = jumpAction.action.ReadValue<float>();
-        isOnGroud = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground);
-        if (isOnGroud && isTryingToJump > 0)
-        {
-            bodyRB.AddForce(Vector2.up * jumpForce);
-        }
-    }
-
-    IEnumerator MoveRight(float seconds)
+    private IEnumerator MoveRight(float seconds)
     {
         leftLegRB.AddForce(Vector2.right * speed * Time.deltaTime);
         yield return new WaitForSeconds(seconds);
         rightLegRB.AddForce(Vector2.right * speed * Time.deltaTime);
     }
-
-    IEnumerator MoveLeft(float seconds)
+    private IEnumerator MoveLeft(float seconds)
     {
         rightLegRB.AddForce(Vector2.left * speed * Time.deltaTime);
         yield return new WaitForSeconds(seconds);
         leftLegRB.AddForce(Vector2.left * speed * Time.deltaTime);
+    }
+
+    public void CharacterMoveRight()
+    {
+        characterAnimationManager.PlayAnimationWalkRight();
+        StartCoroutine(MoveRight(stepWait));
+    }
+    public void CharacterMoveLeft()
+    {
+        characterAnimationManager.PlayAnimationWalkLeft();
+        StartCoroutine(MoveLeft(stepWait));
+    }
+    public void CharacterMoveIdle()
+    {
+        if(characterAnimationManager != null)
+        {
+            characterAnimationManager.PlayAnimationIdle();
+        } 
+    } 
+    public void CharacterTryJump()
+    {
+        bool isOnGroud = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground);
+        if (isOnGroud)
+        {
+            bodyRB.AddForce(Vector2.up * jumpForce);
+        }
+    }
+    public void CharacterMoveHandsUp()
+    {
+        rightHandRB.AddForce((Vector2.up + (Vector2.right / 2 )) * handForce);
+        leftHandRB.AddForce((Vector2.up + (Vector2.left / 2) ) * handForce);
+    }
+
+    public void CharacterMoveHandsDown()
+    {
+        rightHandRB.AddForce((Vector2.down + (Vector2.right / 2)) * handForce);
+        leftHandRB.AddForce((Vector2.down + (Vector2.left / 2)) * handForce);
+    }
+
+    public void CharacterStopMovingHands()
+    {
+        rightHandRB.velocity = Vector2.zero;
+        leftHandRB.velocity = Vector2.zero;
     }
 }
