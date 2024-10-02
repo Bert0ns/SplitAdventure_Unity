@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 4137198965601828311}
   - component: {fileID: 7514222432736280147}
   - component: {fileID: 8737364331279069611}
+  - component: {fileID: 675976546664714615}
   m_Layer: 0
   m_Name: LowerRightArm
   m_TagString: Untagged
@@ -258,6 +259,20 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!114 &675976546664714615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830368815662616286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &2752355535189672238
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +286,7 @@ GameObject:
   - component: {fileID: 1967300138650083673}
   - component: {fileID: 2952602989086206148}
   - component: {fileID: 1623837969374554598}
+  - component: {fileID: 7587920818366296984}
   m_Layer: 0
   m_Name: UpperLeftArm
   m_TagString: Untagged
@@ -432,6 +448,20 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 100
     m_UpperAngle: -180
+--- !u!114 &7587920818366296984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752355535189672238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &3699101579705927780
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +475,7 @@ GameObject:
   - component: {fileID: 7056465143338795697}
   - component: {fileID: 7783228447869650747}
   - component: {fileID: 3878075763362892381}
+  - component: {fileID: 2843576454085135518}
   m_Layer: 0
   m_Name: Torso
   m_TagString: Untagged
@@ -596,6 +627,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 0
   force: 150
+--- !u!114 &2843576454085135518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699101579705927780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &4208240265003208252
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +739,7 @@ GameObject:
   - component: {fileID: 8543617447468025860}
   - component: {fileID: 3102704727579407509}
   - component: {fileID: 3788200735676330881}
+  - component: {fileID: 7587033687486852563}
   m_Layer: 0
   m_Name: UpperLeftLeg
   m_TagString: Untagged
@@ -869,6 +915,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 180
   force: 150
+--- !u!114 &7587033687486852563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225642639007199127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &4617867743143816841
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,6 +943,7 @@ GameObject:
   - component: {fileID: 9005614533184236931}
   - component: {fileID: 2215559667940382372}
   - component: {fileID: 2622562447618502940}
+  - component: {fileID: 3886223527474890533}
   m_Layer: 0
   m_Name: UpperRightLeg
   m_TagString: Untagged
@@ -1058,6 +1119,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 180
   force: 150
+--- !u!114 &3886223527474890533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4617867743143816841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &4624167046678359265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,6 +1147,7 @@ GameObject:
   - component: {fileID: 4253636990526755512}
   - component: {fileID: 1240095875810819374}
   - component: {fileID: 8142580970382279690}
+  - component: {fileID: 994142477563461491}
   m_Layer: 0
   m_Name: LowerLeftLeg
   m_TagString: Untagged
@@ -1247,6 +1323,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 180
   force: 150
+--- !u!114 &994142477563461491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4624167046678359265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &5852626945210750391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,6 +1350,7 @@ GameObject:
   - component: {fileID: 7416355011369986562}
   - component: {fileID: 6879575301139370246}
   - component: {fileID: 7665570431816126853}
+  - component: {fileID: 7031255010846734836}
   m_Layer: 0
   m_Name: UpperRightArm
   m_TagString: Untagged
@@ -1421,6 +1512,20 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: -100
     m_UpperAngle: 180
+--- !u!114 &7031255010846734836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852626945210750391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &6102977478277413994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,6 +1540,7 @@ GameObject:
   - component: {fileID: 5858617076090903315}
   - component: {fileID: 5010956736662786212}
   - component: {fileID: 8014159787519162922}
+  - component: {fileID: 5612674891740963697}
   m_Layer: 0
   m_Name: LowerRightLeg
   m_TagString: Untagged
@@ -1610,6 +1716,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 180
   force: 150
+--- !u!114 &5612674891740963697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6102977478277413994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
 --- !u!1 &6943710774891455169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,13 +1741,13 @@ GameObject:
   - component: {fileID: 3243871541627055834}
   - component: {fileID: 9176577143134717514}
   - component: {fileID: 5751552176838304293}
+  - component: {fileID: 5530533297063512923}
   - component: {fileID: 7383830866311764062}
-  - component: {fileID: 9183043744490290976}
   - component: {fileID: 1762248309705484792}
   - component: {fileID: 4629738525117287423}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1764,6 +1884,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5530533297063512923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943710774891455169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9daa17152dc1bb847977408c847bde0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7383830866311764062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1777,18 +1909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 9176577143134717514}
---- !u!114 &9183043744490290976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6943710774891455169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 171bb65cf2379fa4580e721a01de32a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1762248309705484792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1959,9 +2079,10 @@ GameObject:
   - component: {fileID: 8799864876022153516}
   - component: {fileID: 5333709490208945798}
   - component: {fileID: 3036887547613556971}
+  - component: {fileID: 220653128153970423}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2137,6 +2258,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRotation: 0
   force: 10
+--- !u!114 &220653128153970423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140117763683223143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 1
 --- !u!1 &9206965104802961807
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,6 +2285,7 @@ GameObject:
   - component: {fileID: 7079133562602665452}
   - component: {fileID: 8104652927906634211}
   - component: {fileID: 6344155121716985024}
+  - component: {fileID: 3903536594811028414}
   m_Layer: 0
   m_Name: LowerLeftArm
   m_TagString: Untagged
@@ -2311,3 +2447,17 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 50
     m_UpperAngle: -230
+--- !u!114 &3903536594811028414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206965104802961807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3e721f609922419597c086c6f5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6943710774891455169}
+  isBodyPartHead: 0
