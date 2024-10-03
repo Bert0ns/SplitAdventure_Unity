@@ -1,7 +1,9 @@
 using UnityEngine;
 
+[RequireComponent (typeof(CharacterLife))]
 public class CharacterCollisionController : MonoBehaviour
 {
+    private bool isCollisionEnabled = true;
     private void Start()
     {
         var colliders = GetComponentsInChildren<Collider2D>();
@@ -16,19 +18,19 @@ public class CharacterCollisionController : MonoBehaviour
 
     public void OnChildCollisionEnter2D(Collision2D collision2D)
     {
-        Debug.Log("Collision detected: " +  collision2D.collider.tag + ", " + collision2D.otherCollider.tag);
-    
+        if (!isCollisionEnabled)
+        {
+            return;
+        }
+
         if(collision2D.collider.tag == "Head")
         {
-            Debug.Log("Other Head touched");
+            collision2D.gameObject.GetComponentInParent<CharacterLife>().ChangeLifePoints(-1);
         }
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
+    public void DisableCollisionTriggerWithPlayers()
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>());
-        }
-    }*/
+        isCollisionEnabled = false;
+    }
 }

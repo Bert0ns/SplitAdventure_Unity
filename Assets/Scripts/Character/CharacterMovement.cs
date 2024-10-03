@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private GameObject character;
     [SerializeField] private GameObject leftLeg;
     [SerializeField] private GameObject rightLeg;
     [SerializeField] private GameObject body;
@@ -20,9 +19,12 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float stepWait = 0.5f;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float handForce = 10f;
+    private bool isMovingHandsDown = false;
+    private bool isMovingHandsUp = false;
 
     [SerializeField] private float positionRadius;
     [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask jumpable;
     [SerializeField] private Transform characterPos;
 
     void Start()
@@ -32,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
         bodyRB = body.GetComponent<Rigidbody2D>();
         rightHandRB = rightHand.GetComponent<Rigidbody2D>();
         leftHandRB = leftHand.GetComponent<Rigidbody2D>();
-        characterAnimationManager = character.GetComponent<CharacterAnimationManager>();
+        characterAnimationManager = this.GetComponent<CharacterAnimationManager>();
     }
 
     private IEnumerator MoveRight(float seconds)
@@ -67,27 +69,45 @@ public class CharacterMovement : MonoBehaviour
     } 
     public void CharacterTryJump()
     {
-        bool isOnGroud = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground);
-        if (isOnGroud)
+        bool isOnGround = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground) || Physics2D.OverlapCircle(characterPos.position, positionRadius, jumpable);
+
+        if (isOnGround)
         {
-            bodyRB.AddForce(Vector2.up * jumpForce);
+            float force = 0f;
+            if (isMovingHandsUp)
+            {
+                force -= handForce;
+            }
+            if (isMovingHandsDown)
+            {
+                force += handForce;
+            }
+
+            bodyRB.AddForce(Vector2.up * (jumpForce + force));
         }
     }
     public void CharacterMoveHandsUp()
     {
+        isMovingHandsUp = true;
         rightHandRB.AddForce((Vector2.up + (Vector2.right / 2 )) * handForce);
         leftHandRB.AddForce((Vector2.up + (Vector2.left / 2) ) * handForce);
     }
 
     public void CharacterMoveHandsDown()
     {
+        isMovingHandsDown = true;
         rightHandRB.AddForce((Vector2.down + (Vector2.right / 2)) * handForce);
         leftHandRB.AddForce((Vector2.down + (Vector2.left / 2)) * handForce);
     }
 
     public void CharacterStopMovingHands()
     {
-        rightHandRB.velocity = Vector2.zero;
-        leftHandRB.velocity = Vector2.zero;
+        if(rightHandRB !=  null && leftHandRB != null)
+        {
+            //rightHandRB.velocity = Vector2.zero;
+            //leftHandRB.velocity = Vector2.zero;
+        }
+        isMovingHandsDown = false;
+        isMovingHandsUp = false;
     }
 }
