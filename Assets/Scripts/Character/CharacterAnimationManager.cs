@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterAnimationManager : MonoBehaviour
 {
     [SerializeField] private Animator anim;
-    
+
     public void PlayAnimationWalkRight()
     {
         anim.Play("Character_WalkRight");

@@ -13,7 +13,6 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody2D bodyRB;
     private Rigidbody2D rightHandRB;
     private Rigidbody2D leftHandRB;
-    private CharacterAnimationManager characterAnimationManager;
 
     [SerializeField] private float speed = 1500f;
     [SerializeField] private float stepWait = 0.5f;
@@ -27,6 +26,11 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpable;
     [SerializeField] private Transform characterPos;
 
+    CharacterAnimationManager characterAnimationManager;
+    private void Awake()
+    {
+        characterAnimationManager = GetComponent<CharacterAnimationManager>();
+    }
     void Start()
     {
         leftLegRB = leftLeg.GetComponent<Rigidbody2D>();
@@ -34,7 +38,6 @@ public class CharacterMovement : MonoBehaviour
         bodyRB = body.GetComponent<Rigidbody2D>();
         rightHandRB = rightHand.GetComponent<Rigidbody2D>();
         leftHandRB = leftHand.GetComponent<Rigidbody2D>();
-        characterAnimationManager = this.GetComponent<CharacterAnimationManager>();
     }
 
     private IEnumerator MoveRight(float seconds)
@@ -62,10 +65,7 @@ public class CharacterMovement : MonoBehaviour
     }
     public void CharacterMoveIdle()
     {
-        if(characterAnimationManager != null)
-        {
-            characterAnimationManager.PlayAnimationIdle();
-        } 
+        characterAnimationManager.PlayAnimationIdle();
     } 
     public void CharacterTryJump()
     {
@@ -102,11 +102,6 @@ public class CharacterMovement : MonoBehaviour
 
     public void CharacterStopMovingHands()
     {
-        if(rightHandRB !=  null && leftHandRB != null)
-        {
-            //rightHandRB.velocity = Vector2.zero;
-            //leftHandRB.velocity = Vector2.zero;
-        }
         isMovingHandsDown = false;
         isMovingHandsUp = false;
     }

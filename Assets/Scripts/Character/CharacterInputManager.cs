@@ -24,7 +24,7 @@ public class CharacterInputManager : MonoBehaviour
         playerMap = inputAsset.FindActionMap("Player");
     }
 
-    void Start()
+    private void Start()
     {
         characterMovement = this.GetComponent<CharacterMovement>();
         moveAction = playerMap.FindAction(playerMap.actions[0].name);
@@ -34,7 +34,7 @@ public class CharacterInputManager : MonoBehaviour
         readyAction = playerMap.FindAction(playerMap.actions[5].name);
     }
 
-    void Update()
+    private void Update()
     {   
         if (!isInputEnabled)
         {
@@ -105,6 +105,7 @@ public class CharacterInputManager : MonoBehaviour
     {
         this.gameManager = gameManager;
     }
+
     public void SetNumberPlayer(int number)
     {
         numberPlayer = number;
