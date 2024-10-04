@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerManager))]
 public class GameManager : MonoBehaviour
