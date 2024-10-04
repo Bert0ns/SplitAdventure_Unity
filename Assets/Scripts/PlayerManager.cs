@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
+    public event Action onPlayerAdded;
+    public event Action<int> onPlayerRemoved;
+
     [SerializeField] private List<Transform> startingPoints;
     [SerializeField] private List<Color> playerColors;
 
@@ -33,7 +36,9 @@ public class PlayerManager : MonoBehaviour
 
         CharacterInputManager chInMan = player.GetComponent<CharacterInputManager>();
         GameManager gm = this.GetComponent<GameManager>();
-        gm.PlayerAdded();
+
+        onPlayerAdded?.Invoke();
+        
         chInMan.SetGameManager(gm);
         chInMan.SetNumberPlayer(playerInputs.Count - 1);
 
@@ -47,10 +52,9 @@ public class PlayerManager : MonoBehaviour
     }
     private void OnPlayerLeft(PlayerInput player)
     {
-        GameManager gm = this.GetComponent<GameManager>();
         int index = playerInputs.IndexOf(player);
         playerInputs.RemoveAt(index);
-        gm.PlayerRemoved(index);
+        onPlayerRemoved?.Invoke(index);
     }
 
     public int GetNumberOfPlayers()

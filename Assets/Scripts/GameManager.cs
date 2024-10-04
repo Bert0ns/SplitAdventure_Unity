@@ -1,16 +1,32 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerManager))]
 public class GameManager : MonoBehaviour
 {
+    public event Action onGameStarted;
+
     public static bool isGameStarted = false;
     private PlayerManager playerManager;
     private List<bool> playersReady = new List<bool>();
     
-    void Start()
+    private void Awake()
     {
         playerManager = GetComponent<PlayerManager>();
+    }
+
+    private void OnEnable()
+    {
+        playerManager.onPlayerRemoved += OnPlayerRemoved;
+        playerManager.onPlayerAdded += OnPlayerAdded;
+    }
+    private void OnDisable()
+    {
+        playerManager.onPlayerRemoved -= OnPlayerRemoved;
+        playerManager.onPlayerAdded -= OnPlayerAdded;
     }
 
     void FixedUpdate()
@@ -25,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         isGameStarted = true;
         Debug.Log("Game Started");
+        onGameStarted?.Invoke();
     }
     private bool CheckIfAllPlayersAreReady()
     {
@@ -38,11 +55,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void PlayerAdded()
+    private void OnPlayerAdded()
     {
         playersReady.Add(false);
     }
-    public void PlayerRemoved(int playerNumber)
+    private void OnPlayerRemoved(int playerNumber)
     {
         playersReady.RemoveAt(playerNumber);
     }
@@ -50,5 +67,20 @@ public class GameManager : MonoBehaviour
     public void SetPlayerReady(int playerNumber)
     {
         playersReady[playerNumber] = true;
+    }
+
+    public int GetNumberPlayersReady()
+    {
+        int count = 0;
+        foreach (var item in playersReady)
+        {
+            if (item)
+                count++;
+        }
+        return count;
+    }
+    public int GetNumberOfPlayers()
+    {
+        return playersReady.Count;
     }
 }

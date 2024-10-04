@@ -128,6 +128,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "3f672627-1857-4e89-8b0f-22c2cb74cbc4",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "95b42e82-4bbe-410e-9de6-550fd2c3126b",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e917ea14-2ede-463c-a4a3-dcd7faf50eec",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "b74c772a-ecee-4405-b4b4-25d7738c31dc",
                     "path": "<Keyboard>/space",
@@ -162,6 +195,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0ce631f4-49fe-4349-ab37-8c28a953b8fb",
+                    "path": "<HID::szmy-power Ltd.  Bluetooth Wireless Controller   >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "38e4a64f-a45c-4971-acba-f0bb58eb908f",
                     "path": "<Keyboard>/w",
                     "interactions": "",
@@ -178,6 +222,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad;Joystick",
+                    "action": "HandsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42b27998-6561-4cdc-bb6d-cb0d6004b709",
+                    "path": "<HID::szmy-power Ltd.  Bluetooth Wireless Controller   >/button8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
                     "action": "HandsUp",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -206,6 +261,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3237ffe2-9a3d-4349-a571-689dc973fed2",
+                    "path": "<HID::szmy-power Ltd.  Bluetooth Wireless Controller   >/button7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "HandsDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "50f38125-abf4-4097-b70f-9fabe3124a91",
                     "path": "<Keyboard>/anyKey",
                     "interactions": "",
@@ -228,6 +294,17 @@
                 },
                 {
                     "name": "",
+                    "id": "742e5dd1-402f-4fa7-9630-b6ace94a8bb4",
+                    "path": "<HID::szmy-power Ltd.  Bluetooth Wireless Controller   >/button12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c21edf4f-8e03-4b1e-96f7-9fd486d04235",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -244,6 +321,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Ready",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ea0a44a-d6fa-4465-abbb-766554a2095d",
+                    "path": "<HID::szmy-power Ltd.  Bluetooth Wireless Controller   >/button11",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
                     "action": "Ready",
                     "isComposite": false,
                     "isPartOfComposite": false
