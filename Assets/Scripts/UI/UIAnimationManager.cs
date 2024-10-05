@@ -3,7 +3,6 @@ using UnityEngine;
 public class UIAnimationManager : MonoBehaviour
 {
     [SerializeField] private Animator anim;
-
     public static UIAnimationManager instance;
 
     private void Awake()
@@ -16,7 +15,7 @@ public class UIAnimationManager : MonoBehaviour
 
     public void PlayStartAnimation()
     {
-        anim.Play("TimerCountdown");
+        anim.Play("CountDownTimer");
         anim.Play("PanelFade");
     }
 }

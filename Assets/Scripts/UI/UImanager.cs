@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,41 +5,49 @@ using UnityEngine;
 [RequireComponent (typeof(Timer))]
 public class UImanager : MonoBehaviour
 {
-    [SerializeField] private GameObject uiPanel;
+    public static UImanager instance;
+
+    [SerializeField] private GameObject panelWaitingForPlayers;
     [SerializeField] private TextMeshProUGUI numberOfPlayersText;
     [SerializeField] private TextMeshProUGUI numberOfPlayersReadyText;
     [SerializeField] private TextMeshProUGUI countdownText;
 
-    private GameManager gameManager;
-    private PlayerManager playerManager;
+    [SerializeField] private GameObject panelGameEnded;
+
     private Timer timer;
     private int timerTicks = 0;
    
     private void Awake()
     {
-        gameManager = GetComponent<GameManager>();
-        playerManager = GetComponent<PlayerManager>();
+        if (instance == null)
+        {
+            instance = this;
+        }
         timer = GetComponent<Timer>();
     }
     private void Start()
     {
-        uiPanel.SetActive(true);
+        panelWaitingForPlayers.SetActive(true);
         countdownText.gameObject.SetActive(false);
         numberOfPlayersText.text = "0";
         numberOfPlayersReadyText.text = "0/0";
+
+        panelGameEnded.SetActive(false);
     }
 
     private void OnEnable()
     {
-        gameManager.onGameStarted += OnGameStarted;
-        playerManager.onPlayerAdded += OnPlayerAdded;
-        playerManager.onPlayerRemoved += OnPlayerRemoved;
+        GameManager.instance.onGameStarted += OnGameStarted;
+        GameManager.instance.onGameEnded += OnGameEnded;
+        PlayerManager.instance.onPlayerAdded += OnPlayerAdded;
+        PlayerManager.instance.onPlayerRemoved += OnPlayerRemoved;
     }
     private void OnDisable()
     {
-        gameManager.onGameStarted -= OnGameStarted;
-        playerManager.onPlayerAdded -= OnPlayerAdded;
-        playerManager.onPlayerRemoved -= OnPlayerRemoved;
+        GameManager.instance.onGameStarted -= OnGameStarted;
+        GameManager.instance.onGameEnded -= OnGameEnded;
+        PlayerManager.instance.onPlayerAdded -= OnPlayerAdded;
+        PlayerManager.instance.onPlayerRemoved -= OnPlayerRemoved;
     }
     private void OnPlayerRemoved(int obj)
     {
@@ -52,13 +59,26 @@ public class UImanager : MonoBehaviour
     }
     private void OnGameStarted()
     {
-        uiPanel.SetActive(false);
+        panelWaitingForPlayers.SetActive(false);
+    }
+    private void OnGameEnded()
+    {
+        panelGameEnded.SetActive(true);
+    }
+    private void Timer_onTimerEnd()
+    {
+        timerTicks -= 1;
+        countdownText.text = timerTicks.ToString();
+        if (timerTicks > 0)
+        {
+            timer.StartTimer();
+        }
     }
 
     public void UpdateTexts()
     {
-        int numberPlayers = gameManager.GetNumberOfPlayers();
-        int numberPlayersReady = gameManager.GetNumberPlayersReady();
+        int numberPlayers = GameManager.instance.GetNumberOfPlayers();
+        int numberPlayersReady = GameManager.instance.GetNumberPlayersReady();
 
         numberOfPlayersText.text = numberPlayers.ToString();
         numberOfPlayersReadyText.text = numberPlayersReady + "/" + numberPlayers;
@@ -75,15 +95,5 @@ public class UImanager : MonoBehaviour
         UIAnimationManager.instance.PlayStartAnimation();
 
         timer.StartTimer();
-    }
-
-    private void Timer_onTimerEnd()
-    {
-        timerTicks -= 1;
-        countdownText.text = timerTicks.ToString();
-        if(timerTicks > 0)
-        {
-            timer.StartTimer();
-        }
-    }
+    } 
 }

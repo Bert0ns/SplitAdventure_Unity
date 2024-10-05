@@ -1,8 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterLife : MonoBehaviour
 {
+    public event Action<PlayerInput> onPlayerDeath;
+
     [SerializeField] private TextMeshProUGUI textLifePoints;
     [SerializeField] private int lifePoints = 5;
     private bool isAlive = true;
@@ -46,6 +50,7 @@ public class CharacterLife : MonoBehaviour
         {
             Debug.Log("Player Killed");
             isAlive = false;
+            onPlayerDeath?.Invoke(this.GetComponent<PlayerInput>());
 
             GetComponent<CharacterInputManager>().DisablePlayerInput();
 

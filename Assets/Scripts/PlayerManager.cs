@@ -9,13 +9,20 @@ public class PlayerManager : MonoBehaviour
     public event Action onPlayerAdded;
     public event Action<int> onPlayerRemoved;
 
+    public static PlayerManager instance;
+
     [SerializeField] private List<Transform> startingPoints;
     [SerializeField] private List<Color> playerColors;
 
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
     private PlayerInputManager playerInputManager;
+
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
         playerInputManager = GetComponent<PlayerInputManager>();
     }
     private void OnEnable()
@@ -23,7 +30,6 @@ public class PlayerManager : MonoBehaviour
         playerInputManager.onPlayerJoined += OnPlayerJoined;
         playerInputManager.onPlayerLeft += OnPlayerLeft;
     }
-
     private void OnDisable()
     {
         playerInputManager.onPlayerJoined -= OnPlayerJoined;
@@ -49,16 +55,18 @@ public class PlayerManager : MonoBehaviour
         spriteRenderers[2].color = playerColors.ElementAt(playerInputs.Count - 1);
         spriteRenderers[3].color = playerColors.ElementAt(playerInputs.Count - 1);
         spriteRenderers[4].color = playerColors.ElementAt(playerInputs.Count - 1);
+
+        player.gameObject.GetComponent<CharacterLife>().onPlayerDeath += OnPlayerDeath;
     }
     private void OnPlayerLeft(PlayerInput player)
     {
         int index = playerInputs.IndexOf(player);
         playerInputs.RemoveAt(index);
         onPlayerRemoved?.Invoke(index);
+        player.gameObject.GetComponent<CharacterLife>().onPlayerDeath -= OnPlayerDeath;
     }
-
-    public int GetNumberOfPlayers()
+    private void OnPlayerDeath(PlayerInput obj)
     {
-        return playerInputs.Count;
+        GameManager.instance.PlayerNDied(playerInputs.IndexOf(obj));
     }
 }

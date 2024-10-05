@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerManager))]
 [RequireComponent (typeof(UImanager))]
 public class GameManager : MonoBehaviour
 {
     public event Action onGameStarted;
+    public event Action onGameEnded;
+
+    public static GameManager instance;
 
     public static bool isGameStarted = false;
     private bool gameIsStarting = false;
 
-    private PlayerManager playerManager;
-    private UImanager uiManager;
-
     private List<bool> playersReady = new List<bool>();
+    private List<bool> playersAlive = new List<bool>();
 
     public static int timerStartTimeSeconds = 3;
     private Timer timer;
@@ -22,8 +24,10 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        playerManager = GetComponent<PlayerManager>();
-        uiManager = GetComponent<UImanager>();
+        if (instance == null)
+        {
+            instance = this;
+        }
         timer = GetComponent<Timer>();
     }
 
@@ -33,8 +37,13 @@ public class GameManager : MonoBehaviour
         {
             if (!gameIsStarting)
             {
-                uiManager.StartCountdownGameStart();
+                UImanager.instance.StartCountdownGameStart();
+
+                playersAlive.Clear();
+                playersReady.ForEach(p => playersAlive.Add(true));
+                
                 gameIsStarting = true;
+                Debug.Log("Game is starting...");
             }
         }
     }
@@ -46,11 +55,32 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Started");
         onGameStarted?.Invoke();
     }
+    private void GameEnd()
+    {
+        Debug.Log("Game End");
+        onGameEnded?.Invoke();
+    }
     private bool CheckIfAllPlayersAreReady()
     {
         foreach (var item in playersReady)
         {
             if (item != true)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    private bool CheckIfOnlyOnePlayerIsALive()
+    {
+        int numPlayersAlive = 0;
+        foreach (var item in playersAlive)
+        {
+            if (item == true)
+            {
+                numPlayersAlive++;
+            }
+            if (numPlayersAlive >= 2)
             {
                 return false;
             }
@@ -75,24 +105,30 @@ public class GameManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        playerManager.onPlayerRemoved += OnPlayerRemoved;
-        playerManager.onPlayerAdded += OnPlayerAdded;
+        PlayerManager.instance.onPlayerRemoved += OnPlayerRemoved;
+        PlayerManager.instance.onPlayerAdded += OnPlayerAdded;
 
         timer.onTimerEnd += Timer_onTimerTick;
     }
     private void OnDisable()
     {
-        playerManager.onPlayerRemoved -= OnPlayerRemoved;
-        playerManager.onPlayerAdded -= OnPlayerAdded;
+        PlayerManager.instance.onPlayerRemoved -= OnPlayerRemoved;
+        PlayerManager.instance.onPlayerAdded -= OnPlayerAdded;
 
         timer.onTimerEnd -= Timer_onTimerTick;
+    }
+    private void ResetState()
+    {
+        isGameStarted = false;
+        //playersAlive.Clear();
+        //playersReady.Clear();
     }
 
     public void SetPlayerReady(int playerNumber)
     {
         playersReady[playerNumber] = true;
 
-        uiManager.UpdateTexts();
+        UImanager.instance.UpdateTexts();
     }
 
     public int GetNumberPlayersReady()
@@ -110,4 +146,28 @@ public class GameManager : MonoBehaviour
     {
         return playersReady.Count;
     }
+
+    public void PlayerNDied(int index_n)
+    {
+        playersAlive[index_n] = false;
+
+        if(CheckIfOnlyOnePlayerIsALive())
+        {
+            GameEnd();
+        }
+    } 
+
+    public void QuitApplication()
+    {
+        Debug.Log("Quit Application");
+        Application.Quit(); 
+    }
+
+    public void RestartGame()
+    {
+        ResetState();
+
+        SceneManager.LoadScene(0);
+    }
+
 }
