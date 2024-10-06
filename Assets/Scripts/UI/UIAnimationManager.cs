@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UIAnimationManager : MonoBehaviour
@@ -13,9 +14,26 @@ public class UIAnimationManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        GameManager.instance.onGameEnded += OnGameEnded;
+    }
+    private void OnDisable()
+    {
+        GameManager.instance.onGameEnded -= OnGameEnded;
+    }
+    private void OnGameEnded()
+    {
+        PlayEndAnimation();
+    }
+
+    private void PlayEndAnimation()
+    {
+        anim.Play("PanelGameEnded_On");
+    }
+
     public void PlayStartAnimation()
     {
         anim.Play("CountDownTimer");
-        anim.Play("PanelFade");
     }
 }
