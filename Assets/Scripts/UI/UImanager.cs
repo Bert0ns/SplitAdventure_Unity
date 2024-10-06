@@ -9,6 +9,7 @@ public class UImanager : MonoBehaviour
     public static UImanager instance;
 
     [SerializeField] private GameObject panelWaitingForPlayers;
+    [SerializeField] private GameObject panelWaitingForPlayersFirstButton;
     [SerializeField] private TextMeshProUGUI numberOfPlayersText;
     [SerializeField] private TextMeshProUGUI numberOfPlayersReadyText;
     [SerializeField] private TextMeshProUGUI countdownText;
@@ -19,9 +20,13 @@ public class UImanager : MonoBehaviour
     [SerializeField] private GameObject panelPause;
     [SerializeField] private GameObject panelPauseFirstButton;
 
+    [SerializeField] private GameObject panelOptions;
+    [SerializeField] private GameObject panelOptionsFirstButton;
+    private bool isOptionsMenuOpen = false;
+
     private Timer timer;
     private int timerTicks = 0;
-   
+
     private void Awake()
     {
         if (instance == null)
@@ -33,12 +38,15 @@ public class UImanager : MonoBehaviour
     private void Start()
     {
         panelWaitingForPlayers.SetActive(true);
+        SelectFirstUIItem(panelWaitingForPlayersFirstButton);
         countdownText.gameObject.SetActive(false);
         numberOfPlayersText.text = "0";
         numberOfPlayersReadyText.text = "0/0";
 
         panelGameEnded.SetActive(false);
         panelPause.SetActive(false);
+        panelOptions.SetActive(false);
+        isOptionsMenuOpen = false;
     }
 
     private void OnEnable()
@@ -104,6 +112,7 @@ public class UImanager : MonoBehaviour
         }
     }
 
+
     public void UpdateTexts()
     {
         int numberPlayers = GameManager.instance.GetNumberOfPlayers();
@@ -125,4 +134,25 @@ public class UImanager : MonoBehaviour
 
         timer.StartTimer();
     } 
+
+    public void OpenOptionsMenu()
+    {
+        panelWaitingForPlayers.SetActive(false);
+        panelOptions.SetActive(true);
+        isOptionsMenuOpen = true;
+        SelectFirstUIItem(panelOptionsFirstButton);
+    }
+
+    public void CloseOptionsMenu()
+    {
+        panelOptions.SetActive(false);
+        isOptionsMenuOpen = false;
+        panelWaitingForPlayers.SetActive(true);
+        SelectFirstUIItem(panelWaitingForPlayersFirstButton);
+    }
+
+    public bool IsOptionsMenuOpen()
+    {
+        return isOptionsMenuOpen;
+    }
 }

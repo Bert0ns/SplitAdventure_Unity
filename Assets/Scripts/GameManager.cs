@@ -151,8 +151,12 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerReady(int playerNumber)
     {
-        playersReady[playerNumber] = true;
+        if(UImanager.instance.IsOptionsMenuOpen())
+        {
+            return;
+        }
 
+        playersReady[playerNumber] = true;
         UImanager.instance.UpdateTexts();
     }
 
@@ -206,4 +210,6 @@ public class GameManager : MonoBehaviour
     {
         return isGamePaused;
     }
+
+    
 }
