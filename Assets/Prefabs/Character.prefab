@@ -1516,7 +1516,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: -1}
-  m_ConnectedAnchor: {x: 0.00000033333674, y: 0.83999974}
+  m_ConnectedAnchor: {x: 0.0000003281628, y: 0.8399999}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1981,7 +1981,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.38, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4325617417567996691}
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   leftHand: {fileID: 9206965104802961807}
   speed: 1000
   stepWait: 0.5
-  jumpForce: 3000
+  jumpForce: 3200
   handForce: 15
   positionRadius: 0.3
   ground:
