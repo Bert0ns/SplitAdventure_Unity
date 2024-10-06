@@ -17,14 +17,27 @@ public class UIAnimationManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance.onGameEnded += OnGameEnded;
+        GameManager.instance.onGamePaused += OnGamePaused;
     }
+
     private void OnDisable()
     {
         GameManager.instance.onGameEnded -= OnGameEnded;
+        GameManager.instance.onGamePaused -= OnGamePaused;
     }
     private void OnGameEnded()
     {
         PlayEndAnimation();
+    }
+    private void OnGamePaused()
+    {
+        PlayPauseAnimation();
+    }
+
+    private void PlayPauseAnimation()
+    {
+        anim.Play(null);
+        anim.Play("PanelPause_On");
     }
 
     private void PlayEndAnimation()

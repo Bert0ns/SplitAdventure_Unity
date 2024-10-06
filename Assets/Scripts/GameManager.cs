@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
 {
     public event Action onGameStarted;
     public event Action onGameEnded;
+    public event Action onGamePaused;
+    public event Action onGameResumed;
 
     public static GameManager instance;
 
     public static bool isGameStarted = false;
     private bool gameIsStarting = false;
+    private bool isGamePaused = false;
 
     private List<bool> playersReady = new List<bool>();
     private List<bool> playersAlive = new List<bool>();
@@ -103,25 +106,47 @@ public class GameManager : MonoBehaviour
             GameStart();
         }
     }
+    private void OnCharacterPause()
+    {
+        if(!isGameStarted)
+        {
+            return;
+        }
+
+        if(isGamePaused)
+        {
+            GameResume();
+        }
+        else
+        {
+            isGamePaused = true;
+            Time.timeScale = 0;
+            onGamePaused?.Invoke();
+        }
+    }
     private void OnEnable()
     {
         PlayerManager.instance.onPlayerRemoved += OnPlayerRemoved;
         PlayerManager.instance.onPlayerAdded += OnPlayerAdded;
 
         timer.onTimerEnd += Timer_onTimerTick;
+
+        CharacterInputManager.onCharacterPauseOrResume += OnCharacterPause;
     }
+
     private void OnDisable()
     {
         PlayerManager.instance.onPlayerRemoved -= OnPlayerRemoved;
         PlayerManager.instance.onPlayerAdded -= OnPlayerAdded;
 
         timer.onTimerEnd -= Timer_onTimerTick;
+
+        CharacterInputManager.onCharacterPauseOrResume -= OnCharacterPause;
     }
     private void ResetState()
     {
         isGameStarted = false;
-        //playersAlive.Clear();
-        //playersReady.Clear();
+        Time.timeScale = 1f;
     }
 
     public void SetPlayerReady(int playerNumber)
@@ -170,4 +195,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void GameResume()
+    {
+        isGamePaused = false;
+        Time.timeScale = 1f;
+        onGameResumed?.Invoke();
+    }
+
+    public bool IsGamePaused()
+    {
+        return isGamePaused;
+    }
 }

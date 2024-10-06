@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterMovement))]
 public class CharacterInputManager : MonoBehaviour
 {
+    public static event Action onCharacterPauseOrResume;
+
     [SerializeField] private float stickDeadZone = 0.2f;
     private GameManager gameManager;
     private int numberPlayer = 0;
@@ -15,6 +18,7 @@ public class CharacterInputManager : MonoBehaviour
     private InputAction handsUpAction;
     private InputAction handsDownAction;
     private InputAction readyAction;
+    private InputAction pauseAction;
 
     private bool isInputEnabled = true;
 
@@ -23,7 +27,6 @@ public class CharacterInputManager : MonoBehaviour
         inputAsset = this.GetComponent<PlayerInput>().actions;
         playerMap = inputAsset.FindActionMap("Player");
     }
-
     private void Start()
     {
         characterMovement = this.GetComponent<CharacterMovement>();
@@ -32,6 +35,7 @@ public class CharacterInputManager : MonoBehaviour
         handsUpAction = playerMap.FindAction(playerMap.actions[2].name);
         handsDownAction = playerMap.FindAction(playerMap.actions[3].name);
         readyAction = playerMap.FindAction(playerMap.actions[5].name);
+        pauseAction = playerMap.FindAction(playerMap.actions[6].name);
     }
 
     private void Update()
@@ -40,10 +44,14 @@ public class CharacterInputManager : MonoBehaviour
         {
             return;
         }
-        CharacterTryToMove();
-        CharacterTryToJump();
-        CharacterTryToMoveHands();
-        CharacterTryToGetReady();
+        if(!gameManager.IsGamePaused())
+        {
+            CharacterTryToMove();
+            CharacterTryToJump();
+            CharacterTryToMoveHands();
+            CharacterTryToGetReady();
+        }
+        CharacterTryPauseOrResume();
     }
     private void CharacterTryToGetReady()
     {
@@ -93,6 +101,14 @@ public class CharacterInputManager : MonoBehaviour
         if (handsUp <= 0 && handsDown <= 0)
         {
             characterMovement.CharacterStopMovingHands();
+        }
+    }
+    private void CharacterTryPauseOrResume()
+    {
+        bool pauseOrResume = pauseAction.triggered;
+        if (pauseOrResume)
+        {
+            onCharacterPauseOrResume?.Invoke();
         }
     }
 

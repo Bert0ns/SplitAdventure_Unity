@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         playerInputManager.onPlayerJoined += OnPlayerJoined;
-        playerInputManager.onPlayerLeft += OnPlayerLeft;
+        playerInputManager.onPlayerLeft += OnPlayerLeft; 
     }
     private void OnDisable()
     {
