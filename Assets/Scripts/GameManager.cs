@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent (typeof(UImanager))]
 public class GameManager : MonoBehaviour
 {
+    public event Action onGameIsStarting;
     public event Action onGameStarted;
     public event Action onGameEnded;
     public event Action onGamePaused;
@@ -40,12 +41,13 @@ public class GameManager : MonoBehaviour
         {
             if (!gameIsStarting)
             {
+                gameIsStarting = true;
                 UImanager.instance.StartCountdownGameStart();
 
                 playersAlive.Clear();
                 playersReady.ForEach(p => playersAlive.Add(true));
                 
-                gameIsStarting = true;
+                onGameIsStarting?.Invoke();
                 Debug.Log("Game is starting...");
             }
         }

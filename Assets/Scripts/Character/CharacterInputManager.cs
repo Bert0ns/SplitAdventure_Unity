@@ -8,7 +8,6 @@ public class CharacterInputManager : MonoBehaviour
     public static event Action onCharacterPauseOrResume;
 
     [SerializeField] private float stickDeadZone = 0.2f;
-    private GameManager gameManager;
     private int numberPlayer = 0;
     private CharacterMovement characterMovement;
     private InputActionAsset inputAsset;
@@ -44,7 +43,7 @@ public class CharacterInputManager : MonoBehaviour
         {
             return;
         }
-        if(!gameManager.IsGamePaused())
+        if(!GameManager.instance.IsGamePaused())
         {
             CharacterTryToMove();
             CharacterTryToJump();
@@ -56,9 +55,9 @@ public class CharacterInputManager : MonoBehaviour
     private void CharacterTryToGetReady()
     {
         bool isTryingToGetReady = readyAction.triggered;
-        if (isTryingToGetReady && gameManager != null)
+        if (isTryingToGetReady)
         {
-            gameManager.SetPlayerReady(numberPlayer);
+            GameManager.instance.SetPlayerReady(numberPlayer);
             Debug.Log("Player " +  numberPlayer + " is ready");
         }
     }
@@ -115,11 +114,6 @@ public class CharacterInputManager : MonoBehaviour
     public void DisablePlayerInput()
     {
         isInputEnabled = false;
-    }
-
-    public void SetGameManager(GameManager gameManager)
-    {
-        this.gameManager = gameManager;
     }
 
     public void SetNumberPlayer(int number)

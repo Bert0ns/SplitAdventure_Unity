@@ -13,6 +13,8 @@ public class UImanager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI numberOfPlayersText;
     [SerializeField] private TextMeshProUGUI numberOfPlayersReadyText;
     [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private GameObject OptionsButton;
+    [SerializeField] private GameObject QuitButton;
 
     [SerializeField] private GameObject panelGameEnded;
     [SerializeField] private GameObject gameEndFirstButton;
@@ -47,12 +49,16 @@ public class UImanager : MonoBehaviour
         panelPause.SetActive(false);
         panelOptions.SetActive(false);
         isOptionsMenuOpen = false;
+
+        OptionsButton.SetActive(true);
+        QuitButton.SetActive(true);
     }
 
     private void OnEnable()
     {
         GameManager.instance.onGameStarted += OnGameStarted;
         GameManager.instance.onGameEnded += OnGameEnded;
+        GameManager.instance.onGameIsStarting += OnGameIsStarting;
 
         GameManager.instance.onGamePaused += OnGamePaused;
         GameManager.instance.onGameResumed += OnGameResumed;
@@ -64,6 +70,7 @@ public class UImanager : MonoBehaviour
     {
         GameManager.instance.onGameStarted -= OnGameStarted;
         GameManager.instance.onGameEnded -= OnGameEnded;
+        GameManager.instance.onGameIsStarting -= OnGameIsStarting;
 
         GameManager.instance.onGamePaused -= OnGamePaused;
         GameManager.instance.onGameResumed -= OnGameResumed;
@@ -96,6 +103,11 @@ public class UImanager : MonoBehaviour
     {
         panelPause.SetActive(true);
         SelectFirstUIItem(panelPauseFirstButton);
+    }
+    private void OnGameIsStarting()
+    {
+        OptionsButton.SetActive(false);
+        QuitButton.SetActive(false);
     }
     private void SelectFirstUIItem(GameObject item)
     {

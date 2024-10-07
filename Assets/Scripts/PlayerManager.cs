@@ -17,6 +17,8 @@ public class PlayerManager : MonoBehaviour
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
     private PlayerInputManager playerInputManager;
 
+    [SerializeField] private List<Sprite> hatSprites;
+
     private void Awake()
     {
         if (instance == null)
@@ -41,22 +43,33 @@ public class PlayerManager : MonoBehaviour
         player.tag = "Player" + (playerInputs.Count - 1);
 
         CharacterInputManager chInMan = player.GetComponent<CharacterInputManager>();
-        GameManager gm = this.GetComponent<GameManager>();
 
         onPlayerAdded?.Invoke();
         
-        chInMan.SetGameManager(gm);
         chInMan.SetNumberPlayer(playerInputs.Count - 1);
 
-        player.transform.position = startingPoints[(playerInputs.Count - 1) % startingPoints.Count].position;
-
+        AssignSpawnPoint(player.transform, startingPoints[(playerInputs.Count - 1) % startingPoints.Count]);
+        
         var spriteRenderers = player.GetComponentsInChildren<SpriteRenderer>();
-        spriteRenderers[1].color = playerColors.ElementAt(playerInputs.Count - 1);
-        spriteRenderers[2].color = playerColors.ElementAt(playerInputs.Count - 1);
-        spriteRenderers[3].color = playerColors.ElementAt(playerInputs.Count - 1);
-        spriteRenderers[4].color = playerColors.ElementAt(playerInputs.Count - 1);
+        AssignColor(spriteRenderers, new List<int> { 2, 3, 4, 5 }, playerColors.ElementAt((playerInputs.Count - 1) % playerColors.Count));
+        AssignHat(spriteRenderers, 1, hatSprites, (playerInputs.Count - 1) % hatSprites.Count);
 
         player.gameObject.GetComponent<CharacterLife>().onPlayerDeath += OnPlayerDeath;
+    }
+    private void AssignSpawnPoint(Transform player, Transform spawnPoint)
+    {
+        player.position = spawnPoint.position;
+    }
+    private void AssignColor(SpriteRenderer[] spriteRenderers, List<int> renderersIndex, Color color)
+    {
+        foreach (int rendererIndex in renderersIndex)
+        {
+            spriteRenderers[rendererIndex].color = color;
+        }
+    }
+    private void AssignHat(SpriteRenderer[] spriteRenderers, int rendererIndex, List<Sprite> hatSprites, int hatIndex)
+    {
+        spriteRenderers[rendererIndex].sprite = hatSprites[hatIndex];
     }
     private void OnPlayerLeft(PlayerInput player)
     {
