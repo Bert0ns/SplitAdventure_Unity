@@ -25,7 +25,7 @@ public class CharacterCollisionController : MonoBehaviour
 
         if(collision2D.collider.tag == "Head")
         {
-            collision2D.gameObject.GetComponentInParent<CharacterLife>().ChangeLifePoints(-1);
+            collision2D.gameObject.GetComponentInParent<CharacterLife>().DecreaseLifePoints(1);
         }
     }
 

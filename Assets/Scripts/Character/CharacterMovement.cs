@@ -26,6 +26,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpable;
     [SerializeField] private Transform characterPos;
 
+    [SerializeField] private AudioClip[] jumpAudioClips;
+
     CharacterAnimationManager characterAnimationManager;
     private void Awake()
     {
@@ -71,20 +73,23 @@ public class CharacterMovement : MonoBehaviour
     {
         bool isOnGround = Physics2D.OverlapCircle(characterPos.position, positionRadius, ground) || Physics2D.OverlapCircle(characterPos.position, positionRadius, jumpable);
 
-        if (isOnGround)
+        if (!isOnGround)
         {
-            float force = 0f;
-            if (isMovingHandsUp)
-            {
-                force -= handForce;
-            }
-            if (isMovingHandsDown)
-            {
-                force += handForce;
-            }
-
-            bodyRB.AddForce(Vector2.up * (jumpForce + force));
+            return;
         }
+        float force = 0f;
+        if (isMovingHandsUp)
+        {
+            force -= handForce;
+        }
+        if (isMovingHandsDown)
+        {
+            force += handForce;
+        }
+
+        bodyRB.AddForce(Vector2.up * (jumpForce + force));
+
+        SoundFXManager.Instance.PlayRandomSoundFXClip(jumpAudioClips, this.transform, 1f);
     }
     public void CharacterMoveHandsUp()
     {

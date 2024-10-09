@@ -2241,6 +2241,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   characterPos: {fileID: 1002953113399384456}
+  jumpAudioClips:
+  - {fileID: 8300000, guid: 6fec75f5810be074d95c2ad7dd5423c9, type: 3}
+  - {fileID: 8300000, guid: 19f653806b6e0f645802d4ae11e6c1b1, type: 3}
+  - {fileID: 8300000, guid: cf5e5771e8e1f6945908e2ebad09d002, type: 3}
+  - {fileID: 8300000, guid: b211781e6f6a1cb448e6928b65af6a1c, type: 3}
 --- !u!114 &4629738525117287423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2269,6 +2274,11 @@ MonoBehaviour:
   textLifePoints: {fileID: 2424815670528302021}
   lifePoints: 4
   timeOfImmunity: 1
+  takeDamageAudioClips:
+  - {fileID: 8300000, guid: 59181c7c2090c34478e67e03837e2377, type: 3}
+  - {fileID: 8300000, guid: 23781bfcfb7651e44a7d03e72aa137f9, type: 3}
+  - {fileID: 8300000, guid: b0e7005999c67214b915a17747f1ba1c, type: 3}
+  - {fileID: 8300000, guid: c5220bf7a4ff7034193f395a24856a25, type: 3}
 --- !u!1 &7567928092884065854
 GameObject:
   m_ObjectHideFlags: 0

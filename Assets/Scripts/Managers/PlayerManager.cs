@@ -19,6 +19,9 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private List<Sprite> hatSprites;
 
+    [SerializeField] private AudioClip playerJoinedAudioClip;
+    [SerializeField] private AudioClip playerLeftAudioClip;
+
     private void Awake()
     {
         if (instance == null)
@@ -55,6 +58,8 @@ public class PlayerManager : MonoBehaviour
         AssignHat(spriteRenderers, 1, hatSprites, (playerInputs.Count - 1) % hatSprites.Count);
 
         player.gameObject.GetComponent<CharacterLife>().onPlayerDeath += OnPlayerDeath;
+
+        SoundFXManager.Instance.PlaySoundFXClip(playerJoinedAudioClip, player.transform, 1f);
     }
     private void AssignSpawnPoint(Transform player, Transform spawnPoint)
     {
@@ -77,6 +82,8 @@ public class PlayerManager : MonoBehaviour
         playerInputs.RemoveAt(index);
         onPlayerRemoved?.Invoke(index);
         player.gameObject.GetComponent<CharacterLife>().onPlayerDeath -= OnPlayerDeath;
+
+        SoundFXManager.Instance.PlaySoundFXClip(playerJoinedAudioClip, player.transform, 1f);
     }
     private void OnPlayerDeath(PlayerInput obj)
     {

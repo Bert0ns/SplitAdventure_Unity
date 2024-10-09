@@ -1,15 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class MusicManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static MusicManager instance;
 
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private float volume = 0.2f;
 
     [SerializeField] private AudioClip menuMusic;
+    [SerializeField] private float menuMusicPitch = 1.2f;
+
     [SerializeField] private AudioClip battleMusic;
+    [SerializeField] private float battleMusicPitch = 0.9f;
+
+    private float previousClipTime = 0f;
     private void Awake()
     {
         if(instance == null)
@@ -38,36 +42,33 @@ public class AudioManager : MonoBehaviour
 
     private void OnGameResumed()
     {
-        PlayBattleMusic();
+        PlayMusic(battleMusic, battleMusicPitch, volume);
     }
 
     private void OnGamePaused()
     {
-        PlayMenuMusic();
+        PlayMusic(menuMusic, menuMusicPitch, volume);
     }
 
     private void OnGameEnded()
     {
-        PlayMenuMusic();
+        PlayMusic(menuMusic, menuMusicPitch, volume);
     }
 
     private void OnGameStarted()
     {
-        PlayBattleMusic();
+        PlayMusic(battleMusic, battleMusicPitch, volume);
     }
 
-    private void PlayMenuMusic()
+    private void PlayMusic(AudioClip music, float pitch, float volume)
     {
-        audioSource.Stop();
-        audioSource.clip = menuMusic;
-        audioSource.pitch = 1.2f;
+        audioSource.Pause();
+        float clipTime = audioSource.time;
+        audioSource.clip = music;
+        audioSource.pitch = pitch;
+        audioSource.volume = volume;
+        audioSource.time = previousClipTime;
         audioSource.Play();
-    }
-    private void PlayBattleMusic()
-    {
-        audioSource.Stop();
-        audioSource.clip = battleMusic;
-        audioSource.pitch = 0.9f;
-        audioSource.Play();
+        previousClipTime = clipTime;
     }
 }

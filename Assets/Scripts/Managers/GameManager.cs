@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    [SerializeField] private AudioClip timerTickAudioClip;
+    [SerializeField] private AudioClip playerReadyAudioClip;
+
     public static bool isGameStarted = false;
     private bool gameIsStarting = false;
     private bool isGamePaused = false;
@@ -102,6 +105,7 @@ public class GameManager : MonoBehaviour
     }
     private void Timer_onTimerTick()
     {
+        SoundFXManager.Instance.PlaySoundFXClip(timerTickAudioClip, this.transform, 1f);
         timerTicks++;
         if(timerTicks == timerStartTimeSeconds)
         {
@@ -160,6 +164,8 @@ public class GameManager : MonoBehaviour
 
         playersReady[playerNumber] = true;
         UImanager.instance.UpdateTexts();
+
+        SoundFXManager.Instance.PlaySoundFXClip(playerReadyAudioClip, transform, 1f);
     }
 
     public int GetNumberPlayersReady()

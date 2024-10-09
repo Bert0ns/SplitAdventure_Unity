@@ -1,9 +1,10 @@
 using System;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterLife : MonoBehaviour
+public class CharacterLife: MonoBehaviour, IHasLife
 {
     public event Action<PlayerInput> onPlayerDeath;
 
@@ -14,6 +15,8 @@ public class CharacterLife : MonoBehaviour
     [SerializeField] private float timeOfImmunity = 1f;
     private float timer = 0f;
     private bool isImmune = false;
+
+    [SerializeField] private AudioClip[] takeDamageAudioClips;
     
     private void Start()
     {
@@ -64,13 +67,15 @@ public class CharacterLife : MonoBehaviour
         }
     }
 
-    public void ChangeLifePoints(int amount)
+    public void DecreaseLifePoints(int amount)
     {
         if (!isImmune && isAlive && GameManager.isGameStarted)
         {
-            lifePoints += amount;
+            lifePoints -= amount;
             StartTimeOfImmunity();
             UpdateTextLifePoints();
+
+            SoundFXManager.Instance.PlayRandomSoundFXClip(takeDamageAudioClips, this.transform, 1f);
 
             if (lifePoints <= 0)
             {
