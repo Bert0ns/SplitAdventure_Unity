@@ -52,4 +52,8 @@ public class Timer : MonoBehaviour
     {
         return isTimerRunning;
     }
+    public float GetTimeRimaining()
+    {
+        return timeRemaining;
+    }
 }

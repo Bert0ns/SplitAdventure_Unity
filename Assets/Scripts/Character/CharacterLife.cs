@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,27 +12,21 @@ public class CharacterLife: MonoBehaviour, IHasLife
     private bool isAlive = true;
 
     [SerializeField] private float timeOfImmunity = 1f;
-    private float timer = 0f;
     private bool isImmune = false;
+    private Timer timer;
 
     [SerializeField] private AudioClip[] takeDamageAudioClips;
     
     private void Start()
     {
         UpdateTextLifePoints();
+
+        GameObject timerObject = new GameObject("Timer");
+        timer = timerObject.AddComponent<Timer>();
+        timer.SetDuration(timeOfImmunity);
+        timer.onTimerEnd += Tim_onTimerEnd;
     }
-    private void FixedUpdate()
-    {
-        if (isImmune && timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            timer = 0f;
-            isImmune = false;
-        }
-    }
+
     private void UpdateTextLifePoints()
     {
         if (textLifePoints == null)
@@ -45,8 +38,14 @@ public class CharacterLife: MonoBehaviour, IHasLife
     private void StartTimeOfImmunity()
     {
         isImmune = true;
-        timer = timeOfImmunity;
+        timer.StartTimer();
     }
+
+    private void Tim_onTimerEnd()
+    {
+        isImmune = false;
+    }
+
     private void KillPlayer()
     {
         if(isAlive)
@@ -54,6 +53,9 @@ public class CharacterLife: MonoBehaviour, IHasLife
             Debug.Log("Player Killed");
             isAlive = false;
             onPlayerDeath?.Invoke(this.GetComponent<PlayerInput>());
+
+            timer.onTimerEnd -= Tim_onTimerEnd;
+            Destroy(timer.gameObject);
 
             GetComponent<CharacterInputManager>().DisablePlayerInput();
 
