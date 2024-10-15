@@ -2,9 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(GameManager))]
-[RequireComponent (typeof(Timer))]
-public class UImanager : MonoBehaviour
+public class UImanager : MonoBehaviour, IUseTimer
 {
     public static UImanager instance;
 
@@ -34,8 +32,7 @@ public class UImanager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        }
-        timer = GetComponent<Timer>();
+        }  
     }
     private void Start()
     {
@@ -52,9 +49,15 @@ public class UImanager : MonoBehaviour
 
         OptionsButton.SetActive(true);
         QuitButton.SetActive(true);
+
+        timer = GetComponent<Timer>();
     }
 
     private void OnEnable()
+    {
+        Invoke(nameof(ListenToEvents), 0.1f);
+    }
+    private void ListenToEvents()
     {
         GameManager.instance.onGameStarted += OnGameStarted;
         GameManager.instance.onGameEnded += OnGameEnded;
@@ -114,7 +117,7 @@ public class UImanager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(item);
     }
-    private void Timer_onTimerEnd()
+    public void OnTimerEnd()
     {
         timerTicks -= 1;
         countdownText.text = timerTicks.ToString();
@@ -122,8 +125,17 @@ public class UImanager : MonoBehaviour
         {
             timer.StartTimer();
         }
+        else
+        {
+            timer.onTimerEnd -= OnTimerEnd;
+        }
     }
-
+    public void InitializeTimer()
+    {
+        timer.SetDuration(1f);
+        timer.onTimerEnd += OnTimerEnd;
+        timerTicks = GameManager.timerStartTimeSeconds;
+    }
 
     public void UpdateTexts()
     {
@@ -136,9 +148,7 @@ public class UImanager : MonoBehaviour
 
     public void StartCountdownGameStart()
     {
-        timer.SetDuration(1f);
-        timer.onTimerEnd += Timer_onTimerEnd;
-        timerTicks = GameManager.timerStartTimeSeconds;
+        InitializeTimer();
         countdownText.text = timerTicks.ToString();
         countdownText.gameObject.SetActive(true);
 
@@ -167,4 +177,5 @@ public class UImanager : MonoBehaviour
     {
         return isOptionsMenuOpen;
     }
+
 }

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(PlayerManager))]
-[RequireComponent (typeof(UImanager))]
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IUseTimer
 {
     public event Action onGameIsStarting;
     public event Action onGameStarted;
@@ -34,7 +32,10 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        }
+        } 
+    }
+    private void Start()
+    {
         timer = GetComponent<Timer>();
     }
 
@@ -51,6 +52,9 @@ public class GameManager : MonoBehaviour
                 playersReady.ForEach(p => playersAlive.Add(true));
                 
                 onGameIsStarting?.Invoke();
+
+                InitializeTimer();
+
                 Debug.Log("Game is starting...");
             }
         }
@@ -103,15 +107,7 @@ public class GameManager : MonoBehaviour
     {
         playersReady.RemoveAt(playerNumber);
     }
-    private void Timer_onTimerTick()
-    {
-        SoundFXManager.Instance.PlaySoundFXClip(timerTickAudioClip, this.transform, 1f);
-        timerTicks++;
-        if(timerTicks == timerStartTimeSeconds)
-        {
-            GameStart();
-        }
-    }
+    
     private void OnCharacterPause()
     {
         if(!isGameStarted)
@@ -132,10 +128,12 @@ public class GameManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        Invoke(nameof(SubscribeToEvents), 0.1f);
+    }
+    private void SubscribeToEvents()
+    {
         PlayerManager.instance.onPlayerRemoved += OnPlayerRemoved;
         PlayerManager.instance.onPlayerAdded += OnPlayerAdded;
-
-        timer.onTimerEnd += Timer_onTimerTick;
 
         CharacterInputManager.onCharacterPauseOrResume += OnCharacterPause;
     }
@@ -145,11 +143,9 @@ public class GameManager : MonoBehaviour
         PlayerManager.instance.onPlayerRemoved -= OnPlayerRemoved;
         PlayerManager.instance.onPlayerAdded -= OnPlayerAdded;
 
-        timer.onTimerEnd -= Timer_onTimerTick;
-
         CharacterInputManager.onCharacterPauseOrResume -= OnCharacterPause;
     }
-    private void ResetState()
+    private void ResetGameState()
     {
         isGameStarted = false;
         Time.timeScale = 1f;
@@ -202,7 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        ResetState();
+        ResetGameState();
 
         SceneManager.LoadScene(0);
     }
@@ -219,5 +215,26 @@ public class GameManager : MonoBehaviour
         return isGamePaused;
     }
 
-    
+    public void InitializeTimer()
+    {
+        timer.SetDuration(1f);
+        timer.onTimerEnd += OnTimerEnd;
+        timerTicks = GameManager.timerStartTimeSeconds;
+
+        timer.StartTimer();
+    }
+    public void OnTimerEnd()
+    {
+        SoundFXManager.Instance.PlaySoundFXClip(timerTickAudioClip, this.transform, 1f);
+        timerTicks--;
+        if (timerTicks == 0)
+        {
+            GameStart();
+            timer.onTimerEnd -= OnTimerEnd;
+        }
+        else
+        {
+            timer.StartTimer();
+        }
+    }
 }

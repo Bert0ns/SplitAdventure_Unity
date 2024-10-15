@@ -16,6 +16,10 @@ public class UIAnimationManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Invoke(nameof(ListenToEvents), 0.1f);
+    }
+    private void ListenToEvents()
+    {
         GameManager.instance.onGameEnded += OnGameEnded;
         GameManager.instance.onGamePaused += OnGamePaused;
     }
